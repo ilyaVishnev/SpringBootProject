@@ -33,7 +33,7 @@
                         "        <td>Статус</td>\n" +
                         "        <td>Фото</td>\n" +
                         "    </tr>";
-                    var id_holder = data.idHolder;
+                    var id_holder = data.holder.id;
                     var id = '${user.getId()}';
                     var admin = '${admin}';
                     var status = data.status;
@@ -50,8 +50,8 @@
                             var option = "<option value=\"false\">Продано</option>";
                         }
                     }
-                    content += "<tr><td>" + data.desc + "</td><td>" + data.carbody + "</td><td>" +
-                        data.gearbox + "</td><td>" + data.engine + "</td><td>" +
+                    content += "<tr><td>" + data.description + "</td><td>" + data.carBody.description + "</td><td>" +
+                        data.gearbox.description + "</td><td>" + data.engine.description + "</td><td>" +
                         "<select id=\"status\" name=\"status\" onchange=\"document.forms['descForm'].submit()\" class=\"form-control\">" + option +
                         "</select>" + "</td><td><img src=\"" + data.photo
                         + "\"  width=\"45%\" height=\"45%\"></td></tr><input type=\"hidden\" id=\"id\" name=\"id\" value=\""

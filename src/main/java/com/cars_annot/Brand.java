@@ -1,5 +1,7 @@
 package com.cars_annot;
 
+import com.avito.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -13,9 +15,11 @@ public class Brand {
 
     public Brand() {
     }
-
+    @JsonView(Views.Public.class)
     private int id;
+    @JsonView(Views.Public.class)
     private String name;
+    @JsonView(Views.Private.class)
     private List<Model> models = new ArrayList<>();
 
     @Id
@@ -38,7 +42,7 @@ public class Brand {
         this.name = name;
     }
 
-    @OneToMany( cascade = CascadeType.ALL,fetch = FetchType.EAGER, mappedBy = "brand")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "brand")
     public List<Model> getModels() {
         return models;
     }

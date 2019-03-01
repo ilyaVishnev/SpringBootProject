@@ -2,10 +2,13 @@ package com.avito;
 
 import com.DAO.services.CarService;
 import com.cars_annot.Car;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.json.JSONObject;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,9 +33,10 @@ public class ListController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
-    protected String sendList(@RequestBody(required = false) String text) {
+    protected JSONObject sendList(@RequestBody(required = false) String text) throws Exception {
         HashMap<String, String> map = new Gson().fromJson(text, new TypeToken<HashMap<String, String>>() {
         }.getType());
+        JSONObject send = new JSONObject();
         List<Car> cars = new ArrayList<>();
         String filter = "nothing";
         filter += !map.get("idBrand").equals("off") ? "brand" : "";
@@ -64,22 +68,13 @@ public class ListController {
                 cars = carService.findAllByDate();
                 break;
         }
-        JSONArray jsonArray = new JSONArray();
-        JSONObject send = new JSONObject();
-        Iterator<Car> iterator1 = cars.iterator();
-        while (iterator1.hasNext()) {
-            Car car = iterator1.next();
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("id", car.getId());
-            jsonObject.put("model", car.getGearbox().getModel().toString());
-            jsonObject.put("price", car.getPrice());
-            jsonObject.put("photo", car.getPhoto());
-            jsonObject.put("status", car.getStatus());
-            jsonObject.put("date", car.getDate());
-            jsonObject.put("brandId", car.getGearbox().getModel().getBrand().getId());
-            jsonArray.add(jsonObject);
-        }
-        send.put("array", jsonArray);
-        return send.toString();
+        ObjectMapper mapper = new ObjectMapper();
+        JSONObject jsonSend = new JSONObject();
+        mapper.configure(JsonParser.Feature.IGNORE_UNDEFINED, true);
+        String Strcars = mapper.writerWithView(Views.Public.class).writeValueAsString(cars);
+        JSONParser parser = new JSONParser();
+        JSONArray JSONcars = (JSONArray) parser.parse(Strcars);
+        send.put("array", JSONcars);
+        return send;
     }
 }

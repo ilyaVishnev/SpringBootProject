@@ -13,6 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import javax.servlet.MultipartConfigElement;
+
 @Configuration
 @EnableWebMvc
 @ComponentScan({"com.DAO.repositories", "com.DAO.services", "com.cars_annot", "com.avito","com.config"})
@@ -31,13 +33,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         resolver.setViewClass(JstlView.class);
         return resolver;
     }
-
+/*
     @Bean(name = "filterMultipartResolver")
     public CommonsMultipartResolver getMultipartResolver() {
         CommonsMultipartResolver cmr = new CommonsMultipartResolver();
         cmr.setMaxUploadSize(1000000);
         return cmr;
-    }
+    }*/
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {

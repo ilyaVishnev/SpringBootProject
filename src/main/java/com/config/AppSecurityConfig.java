@@ -30,7 +30,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/create")
                 .and().logout().logoutSuccessUrl("/sign?logout")
                 .and()
-                .exceptionHandling().accessDeniedPage("/WEB-INF/views/deniedPage.jsp");
+                .exceptionHandling().accessDeniedPage("/WEB-INF/jsp/deniedPage.jsp");
     }
 
     @Autowired

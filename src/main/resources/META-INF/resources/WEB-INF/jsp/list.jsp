@@ -63,9 +63,9 @@
                     }
                     array.forEach(function (brand, index, array) {
                         if (myFilter.idBrand == brand.id) {
-                            content += '<option value=\"' + brand.id + '\" selected>' + brand.brand + '</option>';
+                            content += '<option value=\"' + brand.id + '\" selected>' + brand.name + '</option>';
                         } else {
-                            content += '<option value=\"' + brand.id + '\">' + brand.brand + '</option>';
+                            content += '<option value=\"' + brand.id + '\">' + brand.name + '</option>';
                         }
                     });
                     $('#brands').empty().html(content);
@@ -98,7 +98,7 @@
                     var compareDate = date.getFullYear() + " " + date.getMonth() + " " + date.getDate();
                     cars.forEach(function (car, index, cars) {
                         content += "<form action=\"${pageContext.servletContext.contextPath}/desc\" method=\"POST\" class=\"tr\">" +
-                            "<span class=\"td\"><input type=\"text\" name=\"model\" value=\"" + car.model + "\" disabled /></span>" +
+                            "<span class=\"td\"><input type=\"text\" name=\"model\" value=\"" + car.gearbox.model.name + "\" disabled /></span>" +
                             "<span class=\"td\"><input type=\"text\" name=\"price\" value=\"" + car.price + "\" disabled /></span>" +
                             "<span class=\"td\"><input type=\"text\" name=\"status\" value=\"" + car.status + "\" disabled /></span>" +
                             "<span class=\"td\"><input type=\"image\" src=\"" + car.photo + "\" width=\"30%\" \n" +

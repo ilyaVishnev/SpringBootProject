@@ -1,5 +1,7 @@
 package com.cars_annot;
 
+import com.avito.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -11,11 +13,17 @@ import java.util.List;
 @Table(name = "model")
 public class Model {
 
+    @JsonView(Views.Public.class)
     private int id;
+    @JsonView(Views.Public.class)
     private String name;
+    @JsonView(Views.Public.class)
     private Brand brand;
+    @JsonView(Views.Private.class)
     private List<CarBody> bodies = new ArrayList<>();
+    @JsonView(Views.Private.class)
     private List<Engine> engines = new ArrayList<>();
+    @JsonView(Views.Private.class)
     private List<Gearbox> gerboxes = new ArrayList<>();
 
     public Model() {

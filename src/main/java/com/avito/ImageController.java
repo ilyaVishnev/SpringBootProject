@@ -1,5 +1,6 @@
 package com.avito;
 
+import org.hibernate.internal.util.config.ConfigurationException;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -7,6 +8,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Logger;
 
 @Controller
@@ -16,25 +19,28 @@ public class ImageController {
     final Logger logger = Logger.getLogger(ImageController.class.getName());
     private final String[] arrayParametrs = new String[1];
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     @ResponseBody
-    protected String getImage() {
+    protected JSONObject getImage() {
         JSONObject object = new JSONObject();
         String fileway = arrayParametrs[0];
-        if (fileway.equals("")) {
-            fileway = "/META-INF/resources/pictures/emptyPhoto.JPG";
+        if (fileway == null) {
+            fileway = "/pictures/emptyPhoto.JPG";
         } else {
-            fileway = "/META-INF/resources/pictures/" + fileway.substring(fileway.lastIndexOf("\\") + 1);
+            fileway = "/pictures/" + fileway.substring(fileway.lastIndexOf("\\") + 1);
         }
         object.put("image", fileway);
-        return object.toString();
+        return object;
 
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    protected String writeImage(@RequestParam("file") MultipartFile mFile) throws IOException {
+    @PostMapping
+    protected String writeImage(@RequestParam("uploadFile") MultipartFile mFile) throws IOException {
+        Path currentRelativePath = Paths.get("");
+        String rootPath = currentRelativePath.toAbsolutePath().toString();
+        String fileName = mFile.getOriginalFilename().substring(mFile.getOriginalFilename().lastIndexOf("\\") + 1);
         if (!mFile.isEmpty()) {
-            File file = new File(arrayParametrs[0] = "C:\\projects\\myMVC\\src\\main\\web\\pictures\\" + mFile.getOriginalFilename());
+            File file = new File(arrayParametrs[0] = rootPath + "\\src\\main\\resources\\META-INF\\resources\\pictures\\" + fileName);
             mFile.transferTo(file);
         }
         return "createCar";

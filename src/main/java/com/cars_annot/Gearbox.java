@@ -2,6 +2,8 @@ package com.cars_annot;
 
 //import org.hibernate.mapping.Set;
 
+import com.avito.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -13,10 +15,15 @@ import java.util.List;
 @Table(name = "gearbox")
 public class Gearbox {
 
+    @JsonView(Views.Public.class)
     private int id;
+    @JsonView(Views.Public.class)
     private String description;
+    @JsonView(Views.Public.class)
     private Model model;
+    @JsonView(Views.Private.class)
     private List<Car> cars = new ArrayList<>();
+    @JsonView(Views.Public.class)
     private int year;
 
     public Gearbox() {

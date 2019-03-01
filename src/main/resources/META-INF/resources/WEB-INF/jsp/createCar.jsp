@@ -54,8 +54,9 @@
                     $('#carBody').html('<option disabled selected>Выберите корпус</option>');
                     var brandSel = document.getElementById('brand');
                     $('#brand').change(function () {
+                        content = '';
                         for (var i = 0; i < models.length; i++) {
-                            if (models[i].IdBrand == brandSel.options[brandSel.selectedIndex].value) {
+                            if (models[i].brand.id == brandSel.options[brandSel.selectedIndex].value) {
                                 content += '<option value="' + models[i].id + '">' + models[i].name + '</option>';
                             }
                         }
@@ -82,22 +83,22 @@
         function fullFields(yearSel, modelSel, gearboxes, engines, carBodies) {
             var content = '';
             for (var i = 0; i < gearboxes.length; i++) {
-                if (gearboxes[i].IdM == modelSel.options[modelSel.selectedIndex].value && gearboxes[i].year >= yearSel.options[yearSel.selectedIndex].value) {
-                    content += '<option value="' + gearboxes[i].id + '">' + gearboxes[i].desc + '</option>';
+                if (gearboxes[i].model.id == modelSel.options[modelSel.selectedIndex].value && gearboxes[i].year >= yearSel.options[yearSel.selectedIndex].value) {
+                    content += '<option value="' + gearboxes[i].id + '">' + gearboxes[i].description + '</option>';
                 }
             }
             $('#gearbox').html(content);
             content = '';
             for (var i = 0; i < engines.length; i++) {
-                if (engines[i].IdM == modelSel.options[modelSel.selectedIndex].value && engines[i].year >= yearSel.options[yearSel.selectedIndex].value) {
-                    content += '<option value="' + engines[i].id + '">' + engines[i].desc + '</option>';
+                if (engines[i].model.id == modelSel.options[modelSel.selectedIndex].value && engines[i].year >= yearSel.options[yearSel.selectedIndex].value) {
+                    content += '<option value="' + engines[i].id + '">' + engines[i].description + '</option>';
                 }
             }
             $('#engine').html(content);
             content = '';
             for (var i = 0; i < carBodies.length; i++) {
-                if (carBodies[i].IdM == modelSel.options[modelSel.selectedIndex].value && carBodies[i].year >= yearSel.options[yearSel.selectedIndex].value) {
-                    content += '<option value="' + carBodies[i].id + '">' + carBodies[i].desc + '</option>';
+                if (carBodies[i].model.id == modelSel.options[modelSel.selectedIndex].value && carBodies[i].year >= yearSel.options[yearSel.selectedIndex].value) {
+                    content += '<option value="' + carBodies[i].id + '">' + carBodies[i].description + '</option>';
                 }
             }
             $('#carBody').html(content);
@@ -153,9 +154,9 @@
            class="btn btn-default">
 </form:form>
 <h3> Выберите изображение: </h3>
-<form:form action="${pageContext.servletContext.contextPath}/image" id="formIm" method="post" name="formIm"
+<form:form action="/image" id="formIm" method="post" name="formIm"
       enctype="multipart/form-data">
-    <input type="file" name="file" id="file">
+    <input type="file" name="uploadFile" id="uploadFile">
     <br/>
     <input type="button" value="Отправить изображение" onclick="submit()">
 </form:form>

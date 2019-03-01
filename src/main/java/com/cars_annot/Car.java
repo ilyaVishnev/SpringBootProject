@@ -1,5 +1,7 @@
 package com.cars_annot;
 
+import com.avito.Views;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -10,17 +12,28 @@ import java.time.LocalDate;
 @Table(name = "cars")
 public class Car {
 
+    @JsonView(Views.Public.class)
     private int id;
+    @JsonView(Views.Public.class)
     private int price;
+    @JsonView(Views.Private.class)
     @Temporal(TemporalType.DATE)
     private LocalDate date = LocalDate.now();
+    @JsonView(Views.Public.class)
     private Holder holder;
+    @JsonView(Views.Public.class)
     private CarBody carBody;
+    @JsonView(Views.Public.class)
     private Engine engine;
+    @JsonView(Views.Public.class)
     private Gearbox gearbox;
+    @JsonView(Views.Public.class)
     private String description;
+    @JsonView(Views.Public.class)
     private Boolean status;
+    @JsonView(Views.Public.class)
     private String photo;
+    @JsonView(Views.Private.class)
     private int year;
 
     public Car() {
@@ -149,7 +162,7 @@ public class Car {
         if (this == o) return true;
         if (o == null || this.getClass() != o.getClass()) return false;
         Car car = (Car) o;
-        if (this.getId() == car.getId()) {
+        if (this.getPrice() == car.getPrice()) {
             return true;
         }
         return false;

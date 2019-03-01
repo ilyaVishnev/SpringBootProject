@@ -16,9 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/sign")
 public class SignInController {
 
-    @Autowired
-    private HolderService holderService;
-
     @RequestMapping(method = RequestMethod.GET)
     protected ModelAndView goToAccount(@RequestParam(value = "error", required = false) String error, @RequestParam(value = "logout", required = false) String logout, HttpServletRequest request) {
         ModelAndView model = new ModelAndView();

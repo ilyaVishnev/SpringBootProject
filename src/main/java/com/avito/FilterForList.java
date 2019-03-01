@@ -2,8 +2,11 @@ package com.avito;
 
 import com.DAO.services.BrandService;
 import com.cars_annot.Brand;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,25 +19,21 @@ public class FilterForList {
 
     @Autowired
     private BrandService brandService;
-    private final String[] arrayParametrs = {"off","off","off"};
+    private final String[] arrayParametrs = {"off", "off", "off"};
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    protected String getContextMenu() {
+    protected String getContextMenu() throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
         JSONObject send = new JSONObject();
-        JSONArray array = new JSONArray();
-        Iterator<Brand> iterator = brandService.findAll().iterator();
-        while (iterator.hasNext()) {
-            JSONObject jsonObject = new JSONObject();
-            Brand brand = iterator.next();
-            jsonObject.put("id", brand.getId());
-            jsonObject.put("brand", brand.getName());
-            array.add(jsonObject);
-        }
+        mapper.configure(JsonParser.Feature.IGNORE_UNDEFINED, true);
+        String brands = mapper.writerWithView(Views.Public.class).writeValueAsString(brandService.findAll());
+        JSONParser parser = new JSONParser();
+        JSONArray brandArray = (JSONArray) parser.parse(brands);
         send.put("idBrand", arrayParametrs[0]);
         send.put("havePhoto", arrayParametrs[1]);
         send.put("today", arrayParametrs[2]);
-        send.put("array", array);
+        send.put("array", brandArray);
         return send.toString();
     }
 
